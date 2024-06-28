@@ -7,8 +7,9 @@ it adds a custom configuration per repository to specify the worktree path and c
 ## Getting Started
 
 ### Installation
+download the binary from the releases page or install from source using the following command:
 ```sh
-go install github.com/flexphere/gw@0.0.2
+go install github.com/flexphere/gw@latest
 ```
 
 ### Usage
