@@ -8,7 +8,7 @@ it adds a custom configuration per repository to specify the worktree path and c
 
 ### Installation
 ```sh
-go install github.com/flexphere/gw@latest
+go install github.com/flexphere/gw@0.0.2
 ```
 
 ### Usage
@@ -16,7 +16,7 @@ go install github.com/flexphere/gw@latest
 #### Setup current repository
 ```sh
 gw init \
---worktree-path ~/.worktree \         # setup current repository to create its worktrees underworktree
+--worktree-path ~/.worktree \         # setup current repository to create its worktrees under "~/.worktree"
 --cmd "echo hello" --cmd "echo world" # run `echo hello` and `echo world` on worktree creation
 ```
 
@@ -25,9 +25,9 @@ gw init \
 gw new name-of-worktree
 ```
 
-#### Edit config
+#### Editing the config
 ```sh
-gw edit
+gw edit # opens the config file in the editor
 ```
 
 #### Passthrough
