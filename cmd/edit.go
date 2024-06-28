@@ -1,8 +1,8 @@
-package repo
+package cmd
 
 import (
 	"cmp"
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/flexphere/gw/command"
@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var EditCmd = &cobra.Command{
+var editCmd = &cobra.Command{
 	Use:   "edit",
 	Short: "open config file",
 	Long:  `opens the config file with $EDITOR or $VISUAL.`,
@@ -19,11 +19,13 @@ var EditCmd = &cobra.Command{
 		configPath := config.GetConfigPath()
 		editor := cmp.Or(os.Getenv("EDITOR"), os.Getenv("VISUAL"))
 		if editor == "" {
-			log.Fatalln("EDITOR nor VISUAL was set")
+			fmt.Fprintln(os.Stderr, "EDITOR nor VISUAL was set")
+			os.Exit(1)
 		}
 
 		if err := command.PassThrough([]string{editor, configPath}); err != nil {
-			log.Fatalf("failed to edit config: %v", err)
+			fmt.Fprintln(os.Stderr, "failed to edit config")
+			os.Exit(1)
 		}
 	},
 }

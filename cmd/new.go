@@ -1,8 +1,9 @@
-package tree
+package cmd
 
 import (
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -12,8 +13,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var CreateCmd = &cobra.Command{
-	Use:   "create",
+var newCmd = &cobra.Command{
+	Use:   "new",
 	Short: "create worktree",
 	Long:  `create a new worktree`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -22,12 +23,14 @@ var CreateCmd = &cobra.Command{
 		cwd := config.GetCWD()
 
 		if len(args) < 1 || args[0] == "" {
-			log.Fatalf("empty worktree name")
+			fmt.Fprintln(os.Stderr, "worktree name is required")
+			os.Exit(1)
 		}
 
 		repo := conf.FindRepoByPath(cwd)
 		if repo == nil {
-			log.Fatalf("not in a managed repo")
+			fmt.Fprintln(os.Stderr, "not initialized.\nrun `gw init` to initialize repository")
+			os.Exit(1)
 		}
 
 		//create worktree
@@ -53,8 +56,4 @@ var CreateCmd = &cobra.Command{
 
 		fmt.Println(createPath)
 	},
-}
-
-func init() {
-	TreeCmd.AddCommand(CreateCmd)
 }

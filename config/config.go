@@ -34,7 +34,7 @@ func (r RepoConfig) Name() string {
 
 func (r RepoConfig) WorkDir() string {
 	if r.WorkTreePath == "" {
-		return filepath.Join(r.Path, ".worktree")
+		return filepath.Join(r.Path, ".worktrees")
 	}
 	return filepath.Join(r.WorkTreePath, r.Name())
 }
@@ -75,7 +75,7 @@ func (c *Config) FindRepoByName(name string) *RepoConfig {
 	return nil
 }
 
-func (c *Config) AddRepo(basePath, worktreePath, script string) error {
+func (c *Config) AddRepo(basePath, worktreePath string, script []string) error {
 	if basePath == "" {
 		return fmt.Errorf("path is required")
 	}
@@ -88,13 +88,13 @@ func (c *Config) AddRepo(basePath, worktreePath, script string) error {
 	config := RepoConfig{
 		Path:         basePath,
 		WorkTreePath: worktreePath,
-		Script:       strings.Split(script, ";"),
+		Script:       script,
 	}
 
 	name := config.Name()
 
 	if repo := c.FindRepoByName(name); repo != nil {
-		return fmt.Errorf("name %s already exists", name)
+		return fmt.Errorf("%s already initialized.\nuse `gw edit` to update configuration.", name)
 	}
 
 	c.Config[name] = config

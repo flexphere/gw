@@ -1,10 +1,10 @@
 package cmd
 
 import (
+	"log"
 	"os"
 
-	"github.com/flexphere/gw/cmd/repo"
-	"github.com/flexphere/gw/cmd/tree"
+	"github.com/flexphere/gw/command"
 
 	"github.com/spf13/cobra"
 )
@@ -13,6 +13,14 @@ var rootCmd = &cobra.Command{
 	Use:   "gw",
 	Short: "gw is a git worktree command wrapper",
 	Long:  `gw is a git worktree command wrapper`,
+	Run: func(cmd *cobra.Command, args []string) {
+		git := []string{"git", "worktree"}
+		git = append(git, args...)
+		err := command.PassThrough(git)
+		if err != nil {
+			log.Fatal(err)
+		}
+	},
 }
 
 func Execute() {
@@ -23,6 +31,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(repo.RepoCmd)
-	rootCmd.AddCommand(tree.TreeCmd)
+	rootCmd.AddCommand(newCmd)
+	rootCmd.AddCommand(editCmd)
+	rootCmd.AddCommand(initCmd)
 }
