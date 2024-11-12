@@ -36,7 +36,7 @@ var newCmd = &cobra.Command{
 		//create worktree
 		worktreeName := args[0]
 		createPath := filepath.Join(repo.WorkDir(), worktreeName)
-		cmdArgs := []string{"git", "worktree", "add", "--orphan", "-b", worktreeName, createPath}
+		cmdArgs := []string{"git", "worktree", "add", "-b", worktreeName, createPath}
 		if err := command.PassThrough(cmdArgs); err != nil {
 			log.Fatalf("failed to run `%s`: %v", strings.Join(cmdArgs, " "), err)
 		}
